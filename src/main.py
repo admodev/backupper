@@ -39,6 +39,8 @@ def main():
     def choose_dir():
         main_win.source_folder = filedialog.askdirectory(
             parent=main_win, initialdir="/", title='Por favor, elija un directorio...')
+        folder_text = tk.Label(main_win, text=main_win.source_folder)
+        folder_text.place(x=50, y=150)
 
     button_choose_dir = tk.Button(
         main_win, text="Directorio a respaldar", width=20, height=3, command=choose_dir)
@@ -48,14 +50,14 @@ def main():
     def choose_destination_dir():
         main_win.destination_folder = filedialog.askdirectory(
             parent=main_win, initialdir="/", title='Por favor, elija un directorio...')
+        destination_folder_text = tk.Label(
+            main_win, text=main_win.destination_folder)
+        destination_folder_text.place(x=250, y=150)
 
     button_destination_dir = tk.Button(
         main_win, text="Guardar respaldo en", width=20, height=3, command=choose_destination_dir)
     button_destination_dir.place(x=250, y=50)
     button_destination_dir.width = 100
-
-    folder_text = tk.Label(main_win, text=str(main_win.source_folder))
-    folder_text.place(x=250, y=150)
 
     main_win.mainloop()
 
