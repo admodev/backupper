@@ -2,6 +2,8 @@
 
 Files backup software made with Python.
 
+![preview](./assets/screenshot.png "Preview")
+
 ## Maintainer <admodevops@proton.me>
 
 #### Build Instructions
