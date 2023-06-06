@@ -54,8 +54,12 @@ def main():
             main_win, text=main_win.destination_folder)
         destination_folder_text.place(x=250, y=150)
 
+    def finish_backup():
+        choose_destination_dir()
+        backup_files(main_win.source_folder, main_win.destination_folder)
+
     button_destination_dir = tk.Button(
-        main_win, text="Guardar respaldo en", width=20, height=3, command=choose_destination_dir)
+        main_win, text="Guardar respaldo en", width=20, height=3, command=finish_backup)
     button_destination_dir.place(x=250, y=50)
     button_destination_dir.width = 100
 
