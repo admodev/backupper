@@ -32,6 +32,7 @@ def backup_files(source_dir, destination_dir):
 
 def main():
     main_win = tk.Tk()
+    main_win.title("Backupper!")
     main_win.geometry("1000x500")
     main_win.source_folder = ''
     main_win.destination_folder = ''
@@ -57,6 +58,8 @@ def main():
     def finish_backup():
         choose_destination_dir()
         backup_files(main_win.source_folder, main_win.destination_folder)
+        messagebox.showinfo(
+            message="Respaldo finalizado con exito!", title="Backupper!")
 
     button_destination_dir = tk.Button(
         main_win, text="Guardar respaldo en", width=20, height=3, command=finish_backup)
