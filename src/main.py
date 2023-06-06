@@ -1,5 +1,8 @@
 import os
 import shutil
+import tkinter as tk
+from tkinter import messagebox, filedialog
+
 
 def backup_files(source_dir, destination_dir):
     # Check if the source directory exists
@@ -26,13 +29,39 @@ def backup_files(source_dir, destination_dir):
 
     print("Backup complete.")
 
+
 def main():
-    print("Welcome to the file backup application!")
+    main_win = tk.Tk()
+    main_win.geometry("1000x500")
+    main_win.source_folder = ''
+    main_win.destination_folder = ''
 
-    source_dir = input("Enter the source directory: ")
-    destination_dir = input("Enter the destination directory: ")
+    def choose_dir():
+        main_win.source_folder = filedialog.askdirectory(
+            parent=main_win, initialdir="/", title='Por favor, elija un directorio...')
 
-    backup_files(source_dir, destination_dir)
+    button_choose_dir = tk.Button(
+        main_win, text="Directorio a respaldar", width=20, height=3, command=choose_dir)
+    button_choose_dir.place(x=50, y=50)
+    button_choose_dir.width = 100
+
+    def choose_destination_dir():
+        main_win.destination_folder = filedialog.askdirectory(
+            parent=main_win, initialdir="/", title='Por favor, elija un directorio...')
+
+    button_destination_dir = tk.Button(
+        main_win, text="Guardar respaldo en", width=20, height=3, command=choose_destination_dir)
+    button_destination_dir.place(x=250, y=50)
+    button_destination_dir.width = 100
+
+    folder_text = tk.Label(main_win, text=str(main_win.source_folder))
+    folder_text.place(x=250, y=150)
+
+    main_win.mainloop()
+
+    print(main_win.source_folder)
+    print(main_win.destination_folder)
+
 
 if __name__ == "__main__":
     main()
