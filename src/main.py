@@ -2,32 +2,9 @@ import os
 import shutil
 import tkinter as tk
 from tkinter import messagebox, filedialog
-
-
-def backup_files(source_dir, destination_dir):
-    # Check if the source directory exists
-    if not os.path.exists(source_dir):
-        print("Source directory does not exist.")
-        return
-
-    # Check if the destination directory exists, if not, create it
-    if not os.path.exists(destination_dir):
-        os.makedirs(destination_dir)
-
-    # Get a list of files in the source directory
-    files = os.listdir(source_dir)
-
-    # Backup each file in the source directory
-    for file_name in files:
-        source_file = os.path.join(source_dir, file_name)
-        destination_file = os.path.join(destination_dir, file_name)
-
-        # Check if the file is a regular file (not a directory)
-        if os.path.isfile(source_file):
-            shutil.copy2(source_file, destination_file)
-            print(f"File '{file_name}' backed up successfully.")
-
-    print("Backup complete.")
+from pathlib import Path
+import webbrowser
+import zipfile
 
 
 def main():
@@ -36,6 +13,46 @@ def main():
     main_win.geometry("1000x500")
     main_win.source_folder = ''
     main_win.destination_folder = ''
+
+    def compress_backup_files():
+        os.chdir(os.path.dirname(main_win.destination_folder))
+        with zipfile.ZipFile(main_win.destination_folder + '_backup' + '.zip',
+                             "w",
+                             zipfile.ZIP_DEFLATED,
+                             allowZip64=True) as zf:
+            for root, _, filenames in os.walk(os.path.basename(main_win.destination_folder)):
+                for name in filenames:
+                    name = os.path.join(root, name)
+                    name = os.path.normpath(name)
+                    zf.write(name, name)
+
+    def open_backup_directory():
+        up_path = str(Path(main_win.destination_folder).parents[0])
+        path = os.path.realpath(main_win.destination_folder)
+
+        webbrowser.open(up_path)
+
+    def backup_files(source_dir, destination_dir):
+        if not os.path.exists(source_dir):
+            print("Source directory does not exist.")
+            return
+
+        if not os.path.exists(destination_dir):
+            os.makedirs(destination_dir)
+
+        files = os.listdir(source_dir)
+
+        for file_name in files:
+            source_file = os.path.join(source_dir, file_name)
+            destination_file = os.path.join(destination_dir, file_name)
+
+            if os.path.isfile(source_file):
+                shutil.copy2(source_file, destination_file)
+                print(f"File '{file_name}' backed up successfully.")
+        os.chdir(os.path.dirname(main_win.destination_folder))
+        compress_backup_files()
+        open_backup_directory()
+    print("Backup complete.")
 
     def choose_dir():
         main_win.source_folder = filedialog.askdirectory(

@@ -8,6 +8,10 @@ Files backup software made with Python.
 
 #### Build Instructions
 
+ATENTION:
+
+Requires Python 3.11 or above.
+
 First, install the needed packages in your environment:
 
 ```bash
